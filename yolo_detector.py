@@ -17,7 +17,7 @@ def display_text(frame):
 
     cv.putText(frame, text, (text_x, text_y), font, font_scale, text_color, font_thickness)
 
-def display_line(frame, cat_positions):
+def display_tracking_line(frame, cat_positions):
     for i in range(1, len(cat_positions)):
         #Avoid Drawing Errors by checking previous frame and current frame
         if cat_positions[i - 1] is None or cat_positions[i] is None:
@@ -30,7 +30,6 @@ def draw_boxes(frame, boxes, cat_positions = []):
     """Draw detected bounding boxes and tracking line on image frame"""
     cat_class_id = 15  
     
-
     # Create annotator object
     annotator = Annotator(frame)
     for box in boxes:
@@ -53,7 +52,7 @@ def draw_boxes(frame, boxes, cat_positions = []):
             box=coordinator, label=class_name, color=blue_color
         )
         
-    display_line(frame, cat_positions)
+    display_tracking_line(frame, cat_positions)
     display_text(frame)
     return annotator.result()
 
