@@ -1,3 +1,33 @@
+
+## How to initial this project.
+Please follow below instruction to initial project
+1. Git clone this repository
+```
+git clone git@github.com:TxChar/clicknext_internship_2024.git
+```
+2. Create virtual enviroment (unix base)
+```
+python3 -m venv venv
+```
+3. Active virtual enviroment (unix base)
+```
+source ./venv/bin/activate
+#or
+. ./venv/bin/activate
+```
+4. Install nessery libraries
+```
+pip install -r requirements.txt
+```
+5. Lunch YoLo cat detector program
+```
+python3 yolo_detector.py
+```
+5. Quit YoLo cat detector program
+```
+Ctrl + c
+```
+
 ## Technical test for internship program 2024
 
 Please follow below instruction to complete the tests
@@ -13,3 +43,4 @@ Please follow below instruction to complete the tests
 <p align="left">
   <img src="demo.gif" width="640"/>
 </p>
+
