@@ -27,7 +27,17 @@ def draw_boxes(frame, boxes):
             box=coordinator, label=class_name, color=colors(class_id, True)
         )
 
+    text = "Jaturawich-Clicknext-Internship-2024"
+    font = cv.FONT_HERSHEY_SIMPLEX
+    font_scale = 1
+    font_thickness = 2
+    text_color = (0, 0, 255)  
+    
+    text_size, _ = cv.getTextSize(text, font, font_scale, font_thickness)
+    text_x = frame.shape[1] - text_size[0] - 10 
+    text_y = 30  
 
+    cv.putText(frame, text, (text_x, text_y), font, font_scale, text_color, font_thickness)
 
     return annotator.result()
 
