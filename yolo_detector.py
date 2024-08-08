@@ -1,9 +1,9 @@
 from ultralytics import YOLO
 from ultralytics.utils.plotting import Annotator, colors
-import cv2
+import cv2 as cv
 
 # Load YOLO model
-model = YOLO("yolov8a.pt")
+model = YOLO("yolov8n.pt")
 
 
 def draw_boxes(frame, boxes):
@@ -15,12 +15,12 @@ def draw_boxes(frame, boxes):
         class_id = box.cls
         class_name = model.names[int(class_id)]
         coordinator = box.xyxy[0]
-        confidence = box.conf
+        confidence = box.conf 
 
-    # Draw bounding box
-    annotator.box_label(
-        box=coordinator, label=class_name, color=colors(class_id, True)
-    )
+        # Draw bounding box
+        annotator.box_label(
+            box=coordinator, label=f"{class_name}", color=colors(class_id, True)
+        )
 
     return annotator.result()
 
@@ -29,10 +29,11 @@ def detect_object(frame):
     """Detect object from image frame"""
 
     # Detect object from image frame
-    results = model.prediction(frame)
+    results = model.predict(frame)
 
     for result in results:
-    frame = draw_boxes(frame, result.boxes)
+        if result.boxes:  # Ensure there are boxes to process
+            frame = draw_boxes(frame, result.boxes)
 
     return frame
 
@@ -48,10 +49,10 @@ if __name__ == "__main__":
 
     while cap.isOpened():
         # Read image frame
-        ret, frame = cap.read_frame()
+        ret, frame = cap.read()
 
         if ret:
-            # Detect motorcycle from image frame
+            # Detect objects from image frame
             frame_result = detect_object(frame)
 
             # Write result to video
@@ -68,4 +69,4 @@ if __name__ == "__main__":
     # Release the VideoCapture object and close the window
     video_writer.release()
     cap.release()
-    cv2.destroyAllWindows()
+    cv.destroyAllWindows()
