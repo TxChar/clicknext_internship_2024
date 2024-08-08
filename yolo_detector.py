@@ -9,22 +9,25 @@ def display_text(frame):
     font = cv.FONT_HERSHEY_SIMPLEX
     font_scale = 1
     font_thickness = 2
-    text_color = (0, 0, 255)  
+    text_color = (0, 0, 255)
+    margin_right = 10
     
     text_size, _ = cv.getTextSize(text, font, font_scale, font_thickness)
-    text_x = frame.shape[1] - text_size[0] - 10 
+    text_x = frame.shape[1] - text_size[0] - margin_right
     text_y = 30  
 
     cv.putText(frame, text, (text_x, text_y), font, font_scale, text_color, font_thickness)
 
 def display_tracking_line(frame, cat_positions):
+    line_thickness = 2
+    red_color = (0, 0, 255)
     for i in range(1, len(cat_positions)):
         #Avoid Drawing Errors by checking previous frame and current frame
         if cat_positions[i - 1] is None or cat_positions[i] is None:
             continue
 
         # Draw a line 
-        cv.line(frame, cat_positions[i - 1], cat_positions[i], (0, 0, 255), 2)
+        cv.line(frame, cat_positions[i - 1], cat_positions[i], red_color, line_thickness)
 
 def draw_boxes(frame, boxes, cat_positions = []):
     """Draw detected bounding boxes and tracking line on image frame"""
