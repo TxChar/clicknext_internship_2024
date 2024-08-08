@@ -1,33 +1,10 @@
 from ultralytics import YOLO
-from ultralytics.utils.plotting import Annotator, colors
+from ultralytics.utils.plotting import Annotator
 import cv2 as cv
 
-# Load YOLO model
 model = YOLO("yolov8n.pt")
 
-
-
-def draw_boxes(frame, boxes):
-    """Draw detected bounding boxes on image frame"""
-    cat_class_id = 15  
-
-    # Create annotator object
-    annotator = Annotator(frame)
-    for box in boxes:
-        class_id = box.cls
-        if int(class_id) != cat_class_id:
-            continue  # Skip if the others object
-        
-        class_name = model.names[int(class_id)]
-        coordinator = box.xyxy[0]
-        confidence = box.conf
-        blue_color = (255,0,0)
-
-        # Draw bounding box
-        annotator.box_label(
-            box=coordinator, label=class_name, color=blue_color
-        )
-
+def display_text(frame):
     text = "Jaturawich-Clicknext-Internship-2024"
     font = cv.FONT_HERSHEY_SIMPLEX
     font_scale = 1
@@ -39,6 +16,32 @@ def draw_boxes(frame, boxes):
     text_y = 30  
 
     cv.putText(frame, text, (text_x, text_y), font, font_scale, text_color, font_thickness)
+
+
+
+def draw_boxes(frame, boxes):
+    """Draw detected bounding boxes and tracking line on image frame"""
+    cat_class_id = 15  
+    cat_positions = []
+
+    # Create annotator object
+    annotator = Annotator(frame)
+    for box in boxes:
+        class_id = box.cls
+        if int(class_id) != cat_class_id:
+            continue  # Skip if the others class object
+        
+        class_name = model.names[int(class_id)]
+        coordinator = box.xyxy[0]
+        blue_color = (255,0,0)
+
+        # Draw bounding box
+        annotator.box_label(
+            box=coordinator, label=class_name, color=blue_color
+        )
+
+
+    display_text(frame)
 
     return annotator.result()
 
@@ -59,8 +62,6 @@ def detect_object(frame):
 if __name__ == "__main__":
     video_path = "CatZoomies.mp4"
     cap = cv.VideoCapture(video_path)
-
-
 
     while cap.isOpened():
         # Read image frame
