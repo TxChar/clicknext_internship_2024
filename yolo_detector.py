@@ -6,21 +6,28 @@ import cv2 as cv
 model = YOLO("yolov8n.pt")
 
 
+
 def draw_boxes(frame, boxes):
     """Draw detected bounding boxes on image frame"""
+    cat_class_id = 15  
 
     # Create annotator object
     annotator = Annotator(frame)
     for box in boxes:
         class_id = box.cls
+        if int(class_id) != cat_class_id:
+            continue  # Skip if the others object
+        
         class_name = model.names[int(class_id)]
         coordinator = box.xyxy[0]
-        confidence = box.conf 
+        confidence = box.conf
 
         # Draw bounding box
         annotator.box_label(
-            box=coordinator, label=f"{class_name}", color=colors(class_id, True)
+            box=coordinator, label=class_name, color=colors(class_id, True)
         )
+
+
 
     return annotator.result()
 
