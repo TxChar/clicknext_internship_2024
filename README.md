@@ -1,4 +1,9 @@
 
+## About me.
+- Full Name: Mr.Jaturawich Khochun
+- Major: Artificial Intelligence Engineering Student (Fourth-year)
+
+
 ## How to initial this project.
 Please follow below instruction to initial project
 1. Git clone this repository
