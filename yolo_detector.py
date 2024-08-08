@@ -21,10 +21,11 @@ def draw_boxes(frame, boxes):
         class_name = model.names[int(class_id)]
         coordinator = box.xyxy[0]
         confidence = box.conf
+        blue_color = (255,0,0)
 
         # Draw bounding box
         annotator.box_label(
-            box=coordinator, label=class_name, color=colors(class_id, True)
+            box=coordinator, label=class_name, color=blue_color
         )
 
     text = "Jaturawich-Clicknext-Internship-2024"
@@ -59,10 +60,7 @@ if __name__ == "__main__":
     video_path = "CatZoomies.mp4"
     cap = cv.VideoCapture(video_path)
 
-    # Define the codec and create VideoWriter object
-    video_writer = cv.VideoWriter(
-        video_path + "_demo.avi", cv.VideoWriter_fourcc(*"MJPG"), 30, (1280, 720)
-    )
+
 
     while cap.isOpened():
         # Read image frame
@@ -71,9 +69,6 @@ if __name__ == "__main__":
         if ret:
             # Detect objects from image frame
             frame_result = detect_object(frame)
-
-            # Write result to video
-            video_writer.write(frame_result)
 
             # Show result
             cv.namedWindow("Video", cv.WINDOW_NORMAL)
@@ -84,6 +79,5 @@ if __name__ == "__main__":
             break
 
     # Release the VideoCapture object and close the window
-    video_writer.release()
     cap.release()
     cv.destroyAllWindows()
